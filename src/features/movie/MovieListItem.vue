@@ -16,8 +16,8 @@ export default {
 
   setup(props) {
     const { toggleLike } = useToggleLike()
-    function like() {
-      toggleLike(props.movie.id)
+    async function like() {
+      await toggleLike(props.movie.id)
     }
 
     return { like }
