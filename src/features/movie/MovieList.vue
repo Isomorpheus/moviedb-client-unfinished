@@ -31,6 +31,7 @@ function useMovies() {
         name
         poster
         likes
+        liked
       }
     }
   `)
