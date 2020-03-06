@@ -1,5 +1,6 @@
 <script>
 import { HeartIcon } from 'vue-feather-icons'
+import { useToggleLike } from './like'
 
 export default {
   components: {
@@ -13,10 +14,13 @@ export default {
     },
   },
 
-  methods: {
-    toggleLike() {
-      // @TODO
-    },
+  setup(props) {
+    const { toggleLike } = useToggleLike()
+    async function like() {
+      await toggleLike(props.movie.id)
+    }
+
+    return { like }
   },
 }
 </script>
@@ -28,7 +32,7 @@ export default {
       liked: movie.liked,
     }"
   >
-    <button class="btn" @click="toggleLike()">
+    <button class="btn" @click="like()">
       {{ movie.liked ? 'Unlike' : 'Like' }}
     </button>
 

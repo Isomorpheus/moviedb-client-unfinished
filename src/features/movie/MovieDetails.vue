@@ -1,6 +1,9 @@
 <script>
 import { ArrowLeftIcon } from 'vue-feather-icons'
 import MovieDetailsLikes from './MovieDetailsLikes.vue'
+import { useQuery, useResult } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { computed } from '@vue/composition-api'
 // import CommentList from './comment/CommentList.vue'
 
 export default {
@@ -18,10 +21,35 @@ export default {
   },
 
   // @TODO
-  data() {
+  // data() {
+  //   return {
+  //     loading: true,
+  //     movie: null,
+  //   }
+  // },
+  setup(props) {
+    const movieVar = computed(() => ({
+      id: props.id,
+    }))
+
+    const { result, loading } = useQuery(
+      gql`
+        query movie($id: ID!) {
+          movie(id: $id) {
+            id
+            name
+            poster
+            likes
+            liked
+          }
+        }
+      `,
+      movieVar,
+    )
+    const movie = useResult(result)
     return {
-      loading: true,
-      movie: null,
+      loading,
+      movie,
     }
   },
 }
